@@ -2,35 +2,31 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "grid.h"
 
-const int w_width = 640;
-const int w_height = 640;
+const uint16_t window_pixel_width = 640;
+const uint8_t grid_element_width = 8;
+const uint8_t grid_width = window_pixel_width / grid_element_width;
+const uint8_t start_position = grid_width / 2;
 
 int main()
 {
     sf::RenderWindow window(
-        sf::VideoMode(w_width, w_height),
+        sf::VideoMode(window_pixel_width, window_pixel_width),
         "Pro elite programmer, Marcus 'Elden Lord' Gladh");
 
-    window.setFramerateLimit(5);
+    window.setFramerateLimit(10);
 
-    sf::CircleShape circle(200);
-    circle.setPosition(300, 200);
-    circle.setFillColor(sf::Color::Black);
+    Grid myGrid(grid_width, window_pixel_width);
 
-    sf::RectangleShape head(sf::Vector2f(20, 20));
-    bool toggleShape = false;
-
-    int x = 0;
-    int y = 0;
+    sf::RectangleShape head(sf::Vector2f(grid_element_width, grid_element_width));
+    uint8_t grid_x = start_position;
+    uint8_t grid_y = start_position;
+    uint16_t pixel_x = 0;
+    uint16_t pixel_y = 0;
 
     while (window.isOpen())
     {
-        x += 5;
-        y += 5;
-
-        head.setPosition(x, y);
-
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -40,17 +36,17 @@ int main()
             }
         }
 
-        toggleShape = !toggleShape;
+        grid_x += 1;
+        grid_y += 1;
+        pixel_x = myGrid.get_pixel_x_from_coordinate_x(grid_x);
+        pixel_y = myGrid.get_pixel_y_from_coordinate_y(grid_y);
+
+        head.setPosition(pixel_x, pixel_y);
 
         window.clear(sf::Color(155,186,90,255));
 
         //draw everything here...
-        if (toggleShape)
-        {
-            window.draw(circle);
-        }else{
-            window.draw(head);
-        }
+        window.draw(head);
 
         window.display();
     }
