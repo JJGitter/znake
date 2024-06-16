@@ -3,6 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "grid.h"
+#include "snake.h"
 
 const uint16_t window_pixel_width = 640;
 const uint8_t grid_element_width = 8;
@@ -17,13 +18,34 @@ int main()
 
     window.setFramerateLimit(10);
 
-    Grid myGrid(grid_width, window_pixel_width);
+    Grid grid(grid_width, window_pixel_width);
+    Snake snake(start_position, start_position);
 
-    sf::RectangleShape head(sf::Vector2f(grid_element_width, grid_element_width));
     uint8_t grid_x = start_position;
     uint8_t grid_y = start_position;
     uint16_t pixel_x = 0;
     uint16_t pixel_y = 0;
+
+    sf::RectangleShape snake_element(sf::Vector2f(grid_element_width, grid_element_width));
+
+    snake.eat();
+    snake.eat();
+    snake.eat();
+    snake.eat();
+    snake.eat();
+    snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    // snake.eat();
+    std::vector<uint8_t> snake_x_vector = snake.get_x_vector();
+    std::vector<uint8_t> snake_y_vector = snake.get_y_vector();
 
     while (window.isOpen())
     {
@@ -36,18 +58,21 @@ int main()
             }
         }
 
-        grid_x += 1;
-        grid_y += 1;
-        pixel_x = myGrid.get_pixel_x_from_coordinate_x(grid_x);
-        pixel_y = myGrid.get_pixel_y_from_coordinate_y(grid_y);
-
-        head.setPosition(pixel_x, pixel_y);
+        snake.move();
+        snake_x_vector = snake.get_x_vector();
+        snake_y_vector = snake.get_y_vector();
 
         window.clear(sf::Color(155,186,90,255));
 
         //draw everything here...
-        window.draw(head);
-
+        for (uint8_t i = 0; i < snake.length(); i++)
+        {
+            pixel_x = grid.get_pixel_x_from_coordinate_x(snake_x_vector[i]);
+            pixel_y = grid.get_pixel_y_from_coordinate_y(snake_y_vector[i]);
+            // std::cout << static_cast<int>(snake_x_vector[i]) << std::endl;
+            snake_element.setPosition(pixel_x, pixel_y);
+            window.draw(snake_element);
+        }
         window.display();
     }
 
