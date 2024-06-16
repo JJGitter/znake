@@ -15,41 +15,39 @@ enum direction {
 
 class Snake {
     private:
-        std::vector<uint8_t> snake_x_position_;
-        std::vector<uint8_t> snake_y_position_;
+        std::array<std::vector<uint8_t>, 2> coordinates_;
+        std::vector<uint8_t>* x_positions_;
+        std::vector<uint8_t>* y_positions_;
         bool is_digesting_ = false;
         uint8_t direction_ = up;
 
     public:
         Snake(uint8_t start_position_x, uint8_t start_position_y)
         {
-            snake_x_position_.push_back(start_position_x);
-            snake_y_position_.push_back(start_position_y);
+            x_positions_ = &coordinates_[0];
+            y_positions_ = &coordinates_[1];
+            x_positions_->push_back(start_position_x);
+            y_positions_->push_back(start_position_y);
         }
 
-        std::vector<uint8_t> get_x_vector() const
+        std::array<std::vector<uint8_t>, 2> get_coordinates()
         {
-            return snake_x_position_;
-        }
-
-        std::vector<uint8_t> get_y_vector() const
-        {
-            return snake_y_position_;
+            return coordinates_;
         }
 
         uint8_t length() const
         {
-            return snake_x_position_.size();
+            return x_positions_->size();
         }
 
         void eat()
         {
             is_digesting_ = true;
-            uint8_t head_position_x = snake_x_position_[snake_x_position_.size() - 1];
-            uint8_t head_position_y = snake_y_position_[snake_y_position_.size() - 1];
+            uint8_t head_position_x = (*x_positions_)[this->length() - 1];
+            uint8_t head_position_y = (*y_positions_)[this->length() - 1];
 
-            snake_x_position_.push_back(head_position_x + 1);
-            snake_y_position_.push_back(head_position_y);
+            x_positions_->push_back(head_position_x + 1);
+            y_positions_->push_back(head_position_y);
         }
 
         void digest()
@@ -60,33 +58,33 @@ class Snake {
 
         void move()
         {
-            uint8_t head_position_x = snake_x_position_[snake_x_position_.size() - 1];
-            uint8_t head_position_y = snake_y_position_[snake_y_position_.size() - 1];
+            uint8_t head_position_x = (*x_positions_)[this->length() - 1];
+            uint8_t head_position_y = (*y_positions_)[this->length() - 1];
             switch(direction_)
             {
                 case up:
-                    snake_x_position_.erase(snake_x_position_.begin());
-                    snake_x_position_.push_back(head_position_x);
-                    snake_y_position_.erase(snake_y_position_.begin());
-                    snake_y_position_.push_back(head_position_y - 1);
+                    x_positions_->erase(x_positions_->begin());
+                    x_positions_->push_back(head_position_x);
+                    y_positions_->erase(y_positions_->begin());
+                    y_positions_->push_back(head_position_y - 1);
                     break;
                 case right:
-                    snake_x_position_.erase(snake_x_position_.begin());
-                    snake_x_position_.push_back(head_position_x + 1);
-                    snake_y_position_.erase(snake_y_position_.begin());
-                    snake_y_position_.push_back(head_position_y);
+                    x_positions_->erase(x_positions_->begin());
+                    x_positions_->push_back(head_position_x + 1);
+                    y_positions_->erase(y_positions_->begin());
+                    y_positions_->push_back(head_position_y);
                     break;
                 case down:
-                    snake_x_position_.erase(snake_x_position_.begin());
-                    snake_x_position_.push_back(head_position_x);
-                    snake_y_position_.erase(snake_y_position_.begin());
-                    snake_y_position_.push_back(head_position_y + 1);
+                    x_positions_->erase(x_positions_->begin());
+                    x_positions_->push_back(head_position_x);
+                    y_positions_->erase(y_positions_->begin());
+                    y_positions_->push_back(head_position_y + 1);
                     break;
                 case left:
-                    snake_x_position_.erase(snake_x_position_.begin());
-                    snake_x_position_.push_back(head_position_x - 1);
-                    snake_y_position_.erase(snake_y_position_.begin());
-                    snake_y_position_.push_back(head_position_y);
+                    x_positions_->erase(x_positions_->begin());
+                    x_positions_->push_back(head_position_x - 1);
+                    y_positions_->erase(y_positions_->begin());
+                    y_positions_->push_back(head_position_y);
                     break;
                 default:
                     std::cerr << "Error: Invalid direction" << std::endl;

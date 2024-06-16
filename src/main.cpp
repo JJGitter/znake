@@ -21,10 +21,8 @@ int main()
     Grid grid(grid_width, window_pixel_width);
     Snake snake(start_position, start_position);
 
-    uint8_t grid_x = start_position;
-    uint8_t grid_y = start_position;
-    uint16_t pixel_x = 0;
-    uint16_t pixel_y = 0;
+    uint16_t snake_pixels_x = 0;
+    uint16_t snake_pixels_y = 0;
 
     sf::RectangleShape snake_element(sf::Vector2f(grid_element_width, grid_element_width));
 
@@ -44,8 +42,8 @@ int main()
     // snake.eat();
     // snake.eat();
     // snake.eat();
-    std::vector<uint8_t> snake_x_vector = snake.get_x_vector();
-    std::vector<uint8_t> snake_y_vector = snake.get_y_vector();
+
+    std::array<std::vector<uint8_t>, 2> snake_coordinates = snake.get_coordinates();
 
     while (window.isOpen())
     {
@@ -58,19 +56,17 @@ int main()
             }
         }
 
-        snake.move();
-        snake_x_vector = snake.get_x_vector();
-        snake_y_vector = snake.get_y_vector();
-
         window.clear(sf::Color(155,186,90,255));
+
+        snake.move();
+        snake_coordinates = snake.get_coordinates();
 
         //draw everything here...
         for (uint8_t i = 0; i < snake.length(); i++)
         {
-            pixel_x = grid.get_pixel_x_from_coordinate_x(snake_x_vector[i]);
-            pixel_y = grid.get_pixel_y_from_coordinate_y(snake_y_vector[i]);
-            // std::cout << static_cast<int>(snake_x_vector[i]) << std::endl;
-            snake_element.setPosition(pixel_x, pixel_y);
+            snake_pixels_x = grid.get_pixel_x_from_coordinate_x(snake_coordinates[0][i]);
+            snake_pixels_y = grid.get_pixel_y_from_coordinate_y(snake_coordinates[1][i]);
+            snake_element.setPosition(snake_pixels_x, snake_pixels_y);
             window.draw(snake_element);
         }
         window.display();
