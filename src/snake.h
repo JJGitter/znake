@@ -6,7 +6,7 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-enum direction {
+enum eDirection {
     up = 0,
  right = 1,
   down = 2,
@@ -19,7 +19,7 @@ class Snake {
         std::vector<uint8_t>* x_positions_;
         std::vector<uint8_t>* y_positions_;
         bool is_digesting_ = false;
-        uint8_t direction_ = up;
+        eDirection direction_ = up;
 
     public:
         Snake(uint8_t start_position_x, uint8_t start_position_y)
@@ -30,7 +30,7 @@ class Snake {
             y_positions_->push_back(start_position_y);
         }
 
-        std::array<std::vector<uint8_t>, 2> get_coordinates()
+        std::array<std::vector<uint8_t>, 2> get_coordinates() const
         {
             return coordinates_;
         }
@@ -38,6 +38,11 @@ class Snake {
         uint8_t length() const
         {
             return x_positions_->size();
+        }
+
+        eDirection direction() const
+        {
+            return direction_;
         }
 
         void eat()
@@ -88,6 +93,28 @@ class Snake {
                     break;
                 default:
                     std::cerr << "Error: Invalid direction" << std::endl;
+            }
+        }
+
+        void turn(eDirection new_direction)
+        {
+            switch (new_direction)
+            {
+            case up:
+                direction_ = up;
+                break;
+            case right:
+                direction_ = right;
+                break;
+            case down:
+                direction_ = down;
+                break;
+            case left:
+                direction_ = left;
+                break;
+            default:
+                std::cerr << "Error: Invalid direction" << std::endl;
+                break;
             }
         }
 };

@@ -48,11 +48,48 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
+        bool is_key_already_pressed = false;
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
             {
                 window.close();
+            }else if ((event.type == sf::Event::KeyPressed) && !is_key_already_pressed)
+            {
+                uint8_t button_pressed = event.key.code;
+                uint8_t current_direction = snake.direction();
+                is_key_already_pressed = true;
+
+                switch (button_pressed)
+                {
+                case sf::Keyboard::Up:
+                    if (current_direction != down)
+                    {
+                        snake.turn(up);
+                    }
+                    break;
+                case sf::Keyboard::Right:
+                    if (current_direction != left)
+                    {
+                        snake.turn(right);
+                    }
+                    break;
+                case sf::Keyboard::Down:
+                    if (current_direction != up)
+                    {
+                        snake.turn(down);
+                    }
+                    break;
+                case sf::Keyboard::Left:
+                    if (current_direction != right)
+                    {
+                        snake.turn(left);
+                    }
+                    break;
+                default:
+                    break;
+                }
             }
         }
 
