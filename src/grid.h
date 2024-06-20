@@ -9,12 +9,12 @@
 class Grid {
     private:
         uint8_t nr_of_elements_wide_;
-        uint16_t nr_of_pixels_over_width_;
+        uint16_t nr_of_pixels_wide_;
 
     public:
         Grid(uint8_t nr_of_elements_wide, uint16_t window_pixel_width)
             : nr_of_elements_wide_(nr_of_elements_wide),
-              nr_of_pixels_over_width_(window_pixel_width)
+              nr_of_pixels_wide_(window_pixel_width)
         {
         }
 
@@ -23,7 +23,7 @@ class Grid {
             //Assumes grid elements are evenly divisible by the nr of pixels in window
             int pixel_x;
 
-            pixel_x = coordinate_x * nr_of_pixels_over_width_ / nr_of_elements_wide_;
+            pixel_x = coordinate_x * nr_of_pixels_wide_ / nr_of_elements_wide_;
 
             return pixel_x;
         }
@@ -34,7 +34,7 @@ class Grid {
             //Assumes square grid
             int pixel_y;
 
-            pixel_y = coordinate_y * nr_of_pixels_over_width_ / nr_of_elements_wide_;
+            pixel_y = coordinate_y * nr_of_pixels_wide_ / nr_of_elements_wide_;
 
             return pixel_y;
         }
