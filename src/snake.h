@@ -21,12 +21,12 @@ class Snake {
         eDirection direction_ = up;
 
     public:
-        Snake(uint8_t start_position_x, uint8_t start_position_y)
+        Snake(uint8_t start_position)
         {
             x_positions_ = &coordinates_[0];
             y_positions_ = &coordinates_[1];
-            x_positions_->push_back(start_position_x);
-            y_positions_->push_back(start_position_y);
+            x_positions_->push_back(start_position);
+            y_positions_->push_back(start_position);
         }
 
         std::array<std::vector<uint8_t>, 2> get_coordinates() const;

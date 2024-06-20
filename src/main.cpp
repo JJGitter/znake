@@ -17,9 +17,8 @@ int main()
     window.setFramerateLimit(10);
 
     Grid grid(window_pixel_width);
-
     const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
-    Snake snake(start_position, start_position);
+    Snake snake(start_position);
     Food food;
 
     sf::CircleShape food_element;
@@ -33,19 +32,8 @@ int main()
     snake.eat();
     snake.eat();
     snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
-    // snake.eat();
 
-    std::array<std::vector<uint8_t>, 2> snake_coordinates = snake.get_coordinates();
-    std::array<uint8_t, 2> food_coordinates = food.get_coordinates();
+    std::array<uint8_t, 2> food_coordinates;
 
     while (window.isOpen())
     {
@@ -104,6 +92,8 @@ int main()
         food_coordinates = food.get_coordinates();
 
         //draw food
+        //TODO: EXTRACT DRAW INTO food.draw()
+        //WHY IS THE FOOD POSITION NOT RANDOM. IT IS THE SAME EVERY TIME
         uint16_t food_pixel_x = grid.get_pixel_x_from_coordinate_x(food_coordinates[0]);
         uint16_t food_pixel_y = grid.get_pixel_y_from_coordinate_y(food_coordinates[1]);
         food_element.setPosition(food_pixel_x, food_pixel_y);
