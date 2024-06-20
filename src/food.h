@@ -19,21 +19,9 @@ class Food {
             y_position_ = &coordinates_[1];
         }
 
-        std::array<uint8_t, 2> get_coordinates() const
-        {
-            return coordinates_;
-        }
+        std::array<uint8_t, 2> get_coordinates() const;
 
-        std::array<uint8_t, 2> spawn(uint8_t max_x, uint8_t max_y)
-        {
-            uint8_t random_x = rand() % max_x;
-            uint8_t random_y = rand() % max_y;
-            *x_position_ = random_x;
-            *y_position_ = random_y;
-
-            return coordinates_;
-        }
-
+        std::array<uint8_t, 2> spawn(uint8_t max_x, uint8_t max_y);
 };
 
 #endif // FOOD_H
