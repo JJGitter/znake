@@ -7,9 +7,6 @@
 #include "food.h"
 
 const uint16_t window_pixel_width = 640;
-const uint8_t grid_element_width = 8;
-const uint8_t grid_width = window_pixel_width / grid_element_width;
-const uint8_t start_position = grid_width / 2;
 
 int main()
 {
@@ -19,18 +16,16 @@ int main()
 
     window.setFramerateLimit(10);
 
-    Grid grid(grid_width, window_pixel_width);
+    Grid grid(window_pixel_width);
+
+    const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
     Snake snake(start_position, start_position);
     Food food;
 
-    uint16_t snake_pixels_x = 0;
-    uint16_t snake_pixels_y = 0;
-
-    sf::RectangleShape snake_element(sf::Vector2f(grid_element_width, grid_element_width));
     sf::CircleShape food_element;
-    food_element.setRadius(grid_element_width / 2);
+    food_element.setRadius(grid.get_pixel_width_of_single_element() / 2);
     food_element.setFillColor(sf::Color::Red);
-    food.spawn(grid_width, grid_width);
+    food.spawn(grid.get_width_in_nr_of_elements(), grid.get_width_in_nr_of_elements());
 
     snake.eat();
     snake.eat();
@@ -103,16 +98,8 @@ int main()
         window.clear(sf::Color(155,186,90,255));
 
         snake.move();
-        snake_coordinates = snake.get_coordinates();
 
-        //draw snake
-        for (uint8_t i = 0; i < snake.length(); i++)
-        {
-            snake_pixels_x = grid.get_pixel_x_from_coordinate_x(snake_coordinates[0][i]);
-            snake_pixels_y = grid.get_pixel_y_from_coordinate_y(snake_coordinates[1][i]);
-            snake_element.setPosition(snake_pixels_x, snake_pixels_y);
-            window.draw(snake_element);
-        }
+        snake.draw(window, grid);
 
         food_coordinates = food.get_coordinates();
 

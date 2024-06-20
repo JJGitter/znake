@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "grid.h"
 
 #ifndef SNAKE_H
 #define SNAKE_H
@@ -41,6 +42,8 @@ class Snake {
         void move();
 
         void turn(eDirection new_direction);
+
+        void draw(sf::RenderWindow &window, Grid &grid);
 };
 
 #endif // SNAKE_H

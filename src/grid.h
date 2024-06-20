@@ -8,14 +8,29 @@
 
 class Grid {
     private:
-        uint8_t nr_of_elements_wide_;
+        const uint8_t grid_element_width_ = 8;
         uint16_t nr_of_pixels_wide_;
+        uint8_t nr_of_elements_wide_;
 
     public:
-        Grid(uint8_t nr_of_elements_wide, uint16_t window_pixel_width)
-            : nr_of_elements_wide_(nr_of_elements_wide),
-              nr_of_pixels_wide_(window_pixel_width)
+        Grid(uint16_t window_pixel_width)
+            : nr_of_pixels_wide_(window_pixel_width)
         {
+            nr_of_elements_wide_ = nr_of_pixels_wide_ / grid_element_width_;
+        }
+
+        /// @brief
+        /// @return element width in pixels
+        uint8_t get_pixel_width_of_single_element()
+        {
+            return grid_element_width_;
+        }
+
+        /// @brief
+        /// @return
+        uint8_t get_width_in_nr_of_elements()
+        {
+            return nr_of_elements_wide_;
         }
 
         int get_pixel_x_from_coordinate_x(uint8_t coordinate_x) const
