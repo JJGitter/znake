@@ -17,8 +17,7 @@ int main()
     window.setFramerateLimit(10);
 
     Grid grid(window_pixel_width);
-    const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
-    Snake snake(start_position);
+    Snake snake(grid);
     Food food;
 
     sf::CircleShape food_element;

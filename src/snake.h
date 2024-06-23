@@ -21,8 +21,9 @@ class Snake {
         eDirection direction_ = up;
 
     public:
-        Snake(uint8_t start_position)
+        Snake(Grid grid)
         {
+            const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
             x_positions_ = &coordinates_[0];
             y_positions_ = &coordinates_[1];
             x_positions_->push_back(start_position);
