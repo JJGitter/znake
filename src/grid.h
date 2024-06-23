@@ -19,40 +19,10 @@ class Grid {
             nr_of_elements_wide_ = nr_of_pixels_wide_ / grid_element_width_;
         }
 
-        /// @brief
-        /// @return element width in pixels
-        uint8_t get_pixel_width_of_single_element()
-        {
-            return grid_element_width_;
-        }
-
-        /// @brief
-        /// @return
-        uint8_t get_width_in_nr_of_elements()
-        {
-            return nr_of_elements_wide_;
-        }
-
-        int get_pixel_x_from_coordinate_x(uint8_t coordinate_x) const
-        {
-            //Assumes grid elements are evenly divisible by the nr of pixels in window
-            int pixel_x;
-
-            pixel_x = coordinate_x * nr_of_pixels_wide_ / nr_of_elements_wide_;
-
-            return pixel_x;
-        }
-
-        int get_pixel_y_from_coordinate_y(uint8_t coordinate_y) const
-        {
-            //Assumes grid elements are evenly divisible by the nr of pixels in window
-            //Assumes square grid
-            int pixel_y;
-
-            pixel_y = coordinate_y * nr_of_pixels_wide_ / nr_of_elements_wide_;
-
-            return pixel_y;
-        }
+    uint8_t get_pixel_width_of_single_element() const;
+    uint8_t get_width_in_nr_of_elements() const;
+    int get_pixel_x_from_coordinate_x(uint8_t coordinate_x) const;
+    int get_pixel_y_from_coordinate_y(uint8_t coordinate_y) const;
 };
 
 #endif // GRID_H

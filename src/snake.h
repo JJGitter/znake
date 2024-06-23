@@ -30,19 +30,12 @@ class Snake {
         }
 
         std::array<std::vector<uint8_t>, 2> get_coordinates() const;
-
         uint8_t length() const;
-
         eDirection direction() const;
-
         void eat();
-
         void digest();
-
         void move();
-
         void turn(eDirection new_direction);
-
         void draw(sf::RenderWindow &window, Grid &grid);
 };
 
