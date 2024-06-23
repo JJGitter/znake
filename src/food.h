@@ -20,7 +20,7 @@ class Food {
         }
 
         std::array<uint8_t, 2> get_coordinates() const;
-        std::array<uint8_t, 2> spawn(uint8_t max_x, uint8_t max_y);
+        std::array<uint8_t, 2> spawn(uint8_t max_x);
 };
 
 #endif // FOOD_H

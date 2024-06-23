@@ -23,7 +23,7 @@ int main()
     sf::CircleShape food_element;
     food_element.setRadius(grid.get_pixel_width_of_single_element() / 2);
     food_element.setFillColor(sf::Color::Red);
-    food.spawn(grid.get_width_in_nr_of_elements(), grid.get_width_in_nr_of_elements());
+    food.spawn(grid.get_width_in_nr_of_elements());
 
     snake.eat();
     snake.eat();
@@ -92,7 +92,6 @@ int main()
 
         //draw food
         //TODO: EXTRACT DRAW INTO food.draw()
-        //WHY IS THE FOOD POSITION NOT RANDOM. IT IS THE SAME EVERY TIME
         uint16_t food_pixel_x = grid.get_pixel_x_from_coordinate_x(food_coordinates[0]);
         uint16_t food_pixel_y = grid.get_pixel_y_from_coordinate_y(food_coordinates[1]);
         food_element.setPosition(food_pixel_x, food_pixel_y);
