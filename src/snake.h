@@ -37,7 +37,7 @@ class Snake {
         void digest();
         void move();
         void turn(eDirection new_direction);
-        void draw(sf::RenderWindow &window, Grid &grid);
+        void draw(sf::RenderWindow &window, Grid &grid) const;
 };
 
 #endif // SNAKE_H

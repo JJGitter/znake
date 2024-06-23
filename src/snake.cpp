@@ -88,7 +88,7 @@ void Snake::turn(eDirection new_direction)
     }
 }
 
-void Snake::draw(sf::RenderWindow &window, Grid &grid)
+void Snake::draw(sf::RenderWindow &window, Grid &grid) const
 {
     uint8_t grid_element_width = grid.get_pixel_width_of_single_element();
     sf::RectangleShape snake_element(sf::Vector2f(grid_element_width, grid_element_width));

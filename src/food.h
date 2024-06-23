@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include "grid.h"
+
 
 #ifndef FOOD_H
 #define FOOD_H
@@ -21,6 +23,7 @@ class Food {
 
         std::array<uint8_t, 2> get_coordinates() const;
         std::array<uint8_t, 2> spawn(uint8_t max_x);
+        void draw(sf::RenderWindow &window, Grid &grid) const;
 };
 
 #endif // FOOD_H

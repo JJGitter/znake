@@ -20,9 +20,6 @@ int main()
     Snake snake(grid);
     Food food;
 
-    sf::CircleShape food_element;
-    food_element.setRadius(grid.get_pixel_width_of_single_element() / 2);
-    food_element.setFillColor(sf::Color::Red);
     food.spawn(grid.get_width_in_nr_of_elements());
 
     snake.eat();
@@ -31,8 +28,6 @@ int main()
     snake.eat();
     snake.eat();
     snake.eat();
-
-    std::array<uint8_t, 2> food_coordinates;
 
     while (window.isOpen())
     {
@@ -87,15 +82,7 @@ int main()
         snake.move();
 
         snake.draw(window, grid);
-
-        food_coordinates = food.get_coordinates();
-
-        //draw food
-        //TODO: EXTRACT DRAW INTO food.draw()
-        uint16_t food_pixel_x = grid.get_pixel_x_from_coordinate_x(food_coordinates[0]);
-        uint16_t food_pixel_y = grid.get_pixel_y_from_coordinate_y(food_coordinates[1]);
-        food_element.setPosition(food_pixel_x, food_pixel_y);
-        window.draw(food_element);
+        food.draw(window, grid);
 
         window.display();
     }
