@@ -47,17 +47,6 @@ void Snake::check_for_food(Food food, Grid grid)
     }
 }
 
-void Snake::eat_initially()
-{
-    //TODO: REMOVE THIS FUNCTION AND INSTEAD SET SNAKE SIZE IN CONSTRUCTOR
-    is_digesting_ = false;
-    uint8_t head_position_x = (*x_positions_)[this->length() - 1];
-    uint8_t head_position_y = (*y_positions_)[this->length() - 1];
-
-    x_positions_->push_back(head_position_x + 1);
-    y_positions_->push_back(head_position_y);
-}
-
 void Snake::digest(Food food)
 {
     std::array<uint8_t, 2> tail_position = this->get_tail_position();

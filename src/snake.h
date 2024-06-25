@@ -27,11 +27,15 @@ class Snake {
         Snake(Grid grid)
         {
             const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
+            const uint8_t starting_length = 5;
             const uint8_t element_width = grid.get_pixel_width_of_single_element();
             x_positions_ = &coordinates_[0];
             y_positions_ = &coordinates_[1];
-            x_positions_->push_back(start_position);
-            y_positions_->push_back(start_position);
+            for (uint8_t i = 0; i < starting_length; i++)
+            {
+                x_positions_->push_back(start_position + i);
+                y_positions_->push_back(start_position);
+            }
             snake_element_= sf::RectangleShape(sf::Vector2f(element_width, element_width));
         }
 
@@ -41,7 +45,6 @@ class Snake {
         uint8_t length() const;
         bool is_digesting() const;
         eDirection direction() const;
-        void eat_initially();
         void eat();
         void digest(Food food);
         void move();

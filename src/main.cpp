@@ -23,13 +23,6 @@ int main()
 
     food.spawn(grid.get_width_in_nr_of_elements());
 
-    snake.eat_initially();
-    snake.eat_initially();
-    snake.eat_initially();
-    snake.eat_initially();
-    snake.eat_initially();
-    snake.eat_initially();
-
     while (window.isOpen())
     {
         sf::Event event;
