@@ -23,12 +23,12 @@ int main()
 
     food.spawn(grid.get_width_in_nr_of_elements());
 
-    snake.eat();
-    snake.eat();
-    snake.eat();
-    snake.eat();
-    snake.eat();
-    snake.eat();
+    snake.eat_initially();
+    snake.eat_initially();
+    snake.eat_initially();
+    snake.eat_initially();
+    snake.eat_initially();
+    snake.eat_initially();
 
     while (window.isOpen())
     {
@@ -49,6 +49,12 @@ int main()
         window.clear(sf::Color(155,186,90,255));
 
         snake.move();
+        snake.check_for_food(food, grid);
+
+        if (snake.is_digesting())
+        {
+            snake.digest(food);
+        }
 
         snake.draw(window, grid);
         food.draw(window, grid);

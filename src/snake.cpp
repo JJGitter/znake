@@ -5,9 +5,28 @@ std::array<std::vector<uint8_t>, 2> Snake::get_coordinates() const
     return coordinates_;
 }
 
+std::array<uint8_t, 2> Snake::get_head_position() const
+{
+    uint8_t head_position_x = (*x_positions_)[this->length() - 1];
+    uint8_t head_position_y = (*y_positions_)[this->length() - 1];
+    return {head_position_x, head_position_y};
+}
+
+std::array<uint8_t, 2> Snake::get_tail_position() const
+{
+    uint8_t tail_position_x = (*x_positions_)[this->length() - 1];
+    uint8_t tail_position_y = (*y_positions_)[this->length() - 1];
+    return {tail_position_x, tail_position_y};
+}
+
 uint8_t Snake::length() const
 {
     return x_positions_->size();
+}
+
+bool Snake::is_digesting() const
+{
+    return is_digesting_;
 }
 
 eDirection Snake::direction() const
@@ -15,9 +34,23 @@ eDirection Snake::direction() const
     return direction_;
 }
 
-void Snake::eat()
+void Snake::check_for_food(Food food, Grid grid)
 {
-    is_digesting_ = true;
+    std::array<uint8_t, 2> head_position = this->get_head_position();
+
+    if (food.get_coordinates() == head_position)
+    {
+        is_digesting_ = true;
+        position_of_food_being_digested_ = head_position;
+        food.spawn(grid.get_width_in_nr_of_elements());
+        std::cout << "I ATE FOOD!!!" << std::endl;
+    }
+}
+
+void Snake::eat_initially()
+{
+    //TODO: REMOVE THIS FUNCTION AND INSTEAD SET SNAKE SIZE IN CONSTRUCTOR
+    is_digesting_ = false;
     uint8_t head_position_x = (*x_positions_)[this->length() - 1];
     uint8_t head_position_y = (*y_positions_)[this->length() - 1];
 
@@ -25,16 +58,51 @@ void Snake::eat()
     y_positions_->push_back(head_position_y);
 }
 
-void Snake::digest()
+void Snake::digest(Food food)
 {
-    //grow when tail passes consumed food position
-    //snake_x_position_.insert(snake_x_position_.begin(), snake_x_position_[0]);
+    std::array<uint8_t, 2> tail_position = this->get_tail_position();
+    if (tail_position == position_of_food_being_digested_)
+    {
+        this->eat();
+    }
+}
+
+void Snake::eat()
+{
+    is_digesting_ = false;
+    std::array<uint8_t, 2> tail_position = this->get_tail_position();
+
+    //TODO: THIS SWITCH CASE SHOULD PROBABLY CONSIDER THE tail_direction_ INSTEAD OF THE head_direction_
+    //ON SECOND THOUGHT, THIS ELEMENT WILL ONLY BE DISPLAYED FOR A FRACTION OF A SECOND. CAN WE SIMPLY DRAW IT ON THE NEXT ITERATION INSTEAD?
+    switch(direction_)
+    {
+        case up:
+            x_positions_->insert(x_positions_->begin(), tail_position[0]);
+            y_positions_->insert(y_positions_->begin(), tail_position[1] + 1);
+            break;
+        case right:
+            x_positions_->insert(x_positions_->begin(), tail_position[0] - 1);
+            y_positions_->insert(y_positions_->begin(), tail_position[1]);
+            break;
+        case down:
+            x_positions_->insert(x_positions_->begin(), tail_position[0]);
+            y_positions_->insert(y_positions_->begin(), tail_position[1] + 1);
+            break;
+        case left:
+            x_positions_->insert(x_positions_->begin(), tail_position[0] + 1);
+            y_positions_->insert(y_positions_->begin(), tail_position[1]);
+            break;
+        default:
+            std::cerr << "Error: Invalid direction" << std::endl;
+    }
 }
 
 void Snake::move()
 {
-    uint8_t head_position_x = (*x_positions_)[this->length() - 1];
-    uint8_t head_position_y = (*y_positions_)[this->length() - 1];
+    std::array<uint8_t, 2> head_position = this->get_head_position();
+    uint8_t head_position_x = head_position[0];
+    uint8_t head_position_y = head_position[1];
+
     switch(direction_)
     {
         case up:

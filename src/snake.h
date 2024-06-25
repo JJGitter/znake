@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "grid.h"
+#include "food.h"
 
 #ifndef SNAKE_H
 #define SNAKE_H
@@ -15,6 +16,7 @@ enum eDirection {
 class Snake {
     private:
         std::array<std::vector<uint8_t>, 2> coordinates_;
+        std::array<uint8_t, 2> position_of_food_being_digested_;
         std::vector<uint8_t>* x_positions_;
         std::vector<uint8_t>* y_positions_;
         bool is_digesting_ = false;
@@ -34,13 +36,18 @@ class Snake {
         }
 
         std::array<std::vector<uint8_t>, 2> get_coordinates() const;
+        std::array<uint8_t, 2> get_head_position() const;
+        std::array<uint8_t, 2> get_tail_position() const;
         uint8_t length() const;
+        bool is_digesting() const;
         eDirection direction() const;
+        void eat_initially();
         void eat();
-        void digest();
+        void digest(Food food);
         void move();
         void turn(eDirection new_direction);
         void draw(sf::RenderWindow &window, Grid &grid);
+        void check_for_food(Food food, Grid grid);
 };
 
 #endif // SNAKE_H
