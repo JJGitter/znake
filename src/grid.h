@@ -8,7 +8,7 @@
 
 class Grid {
     private:
-        const uint8_t grid_element_width_ = 8;
+        const uint8_t grid_element_width_ = 16; //window_pixel_width needs to be evenly divisible by this
         uint16_t nr_of_pixels_wide_;
         uint8_t nr_of_elements_wide_;
 

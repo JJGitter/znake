@@ -7,7 +7,7 @@
 #include "food.h"
 #include "main.h"
 
-const uint16_t window_pixel_width = 640;
+const uint16_t window_pixel_width = 640; //needs to be evenly divisible by grid_element_width_
 
 int main()
 {
@@ -15,7 +15,7 @@ int main()
         sf::VideoMode(window_pixel_width, window_pixel_width),
         "Pro elite programmer, Marcus 'Elden Lord' Gladh");
 
-    window.setFramerateLimit(10);
+    window.setFramerateLimit(14);
 
     Grid grid(window_pixel_width);
     Snake snake(grid);
