@@ -14,6 +14,11 @@ uint8_t Grid::get_width_in_nr_of_elements() const
     return nr_of_elements_wide_;
 }
 
+uint8_t Grid::get_max_element_index() const
+{
+    return nr_of_elements_wide_ - 1;
+}
+
 /// @brief Assumes grid elements are evenly divisible by the nr of pixels in window.
 /// @return x-coordinate in pixels.
 int Grid::get_pixel_x_from_coordinate_x(uint8_t coordinate_x) const

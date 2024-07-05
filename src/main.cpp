@@ -6,6 +6,7 @@
 #include "snake.h"
 #include "food.h"
 #include "main.h"
+#include "walls.h"
 
 const uint16_t window_pixel_width = 640; //needs to be evenly divisible by grid_element_width_
 
@@ -20,8 +21,9 @@ int main()
     Grid grid(window_pixel_width);
     Snake snake(grid);
     Food food;
+    Walls walls(grid);
 
-    food.spawn(grid.get_width_in_nr_of_elements());
+    food.spawn(grid.get_max_element_index());
 
     while (window.isOpen())
     {
@@ -51,6 +53,7 @@ int main()
 
         snake.draw(window, grid);
         food.draw(window, grid);
+        walls.draw(window, grid);
 
         window.display();
     }

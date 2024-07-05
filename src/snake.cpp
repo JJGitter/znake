@@ -42,7 +42,7 @@ void Snake::check_for_food(Food food, Grid grid)
     {
         is_digesting_ = true;
         position_of_food_being_digested_ = head_position;
-        food.spawn(grid.get_width_in_nr_of_elements());
+        food.spawn(grid.get_max_element_index());
         std::cout << "I ATE FOOD!!!" << std::endl;
     }
 }

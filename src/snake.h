@@ -24,7 +24,7 @@ class Snake {
         sf::RectangleShape snake_element_;
 
     public:
-        Snake(Grid grid)
+        Snake(Grid &grid)
         {
             const uint8_t start_position = grid.get_width_in_nr_of_elements() / 2;
             const uint8_t starting_length = 5;

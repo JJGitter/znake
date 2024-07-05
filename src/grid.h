@@ -21,6 +21,7 @@ class Grid {
 
     uint8_t get_pixel_width_of_single_element() const;
     uint8_t get_width_in_nr_of_elements() const;
+    uint8_t get_max_element_index() const;
     int get_pixel_x_from_coordinate_x(uint8_t coordinate_x) const;
     int get_pixel_y_from_coordinate_y(uint8_t coordinate_y) const;
 };
