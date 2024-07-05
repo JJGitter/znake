@@ -16,12 +16,12 @@ enum eDirection {
 class Snake {
     private:
         std::array<std::vector<uint8_t>, 2> coordinates_;
-        std::array<uint8_t, 2> position_of_food_being_digested_;
         std::vector<uint8_t>* x_positions_;
         std::vector<uint8_t>* y_positions_;
-        bool is_digesting_ = false;
         eDirection direction_ = up;
         sf::RectangleShape snake_element_;
+        bool is_digesting_ = false;
+        std::array<uint8_t, 2> position_of_food_being_digested_;
 
     public:
         Snake(Grid &grid)
