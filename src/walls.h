@@ -27,6 +27,8 @@ class Walls {
         }
         void init(uint8_t max_x);
         void draw(sf::RenderWindow &window, Grid &grid);
+        std::array<std::vector<uint8_t>, 2> get_coordinates() const;
+        uint8_t length() const;
 };
 
 #endif // WALLS_H

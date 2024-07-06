@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "grid.h"
 #include "food.h"
+#include "walls.h"
 
 #ifndef SNAKE_H
 #define SNAKE_H
@@ -46,11 +47,12 @@ class Snake {
         bool is_digesting() const;
         eDirection direction() const;
         void eat();
-        void digest(Food food);
+        void digest();
         void move();
         void turn(eDirection new_direction);
         void draw(sf::RenderWindow &window, Grid &grid);
-        void check_for_food(Food food, Grid grid);
+        bool check_for_collision(Walls &walls);
+        void check_for_food(Food &food, Grid &grid);
 };
 
 #endif // SNAKE_H

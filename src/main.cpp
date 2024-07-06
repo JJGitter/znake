@@ -12,6 +12,7 @@ const uint16_t window_pixel_width = 640; //needs to be evenly divisible by grid_
 
 int main()
 {
+    GameState game_state = eRunning;
     sf::RenderWindow window(
         sf::VideoMode(window_pixel_width, window_pixel_width),
         "Pro elite programmer, Marcus 'Elden Lord' Gladh");
@@ -22,6 +23,7 @@ int main()
     Snake snake(grid);
     Food food;
     Walls walls(grid);
+    bool has_collided = false;
 
     food.spawn(grid.get_max_element_index());
 
@@ -41,15 +43,22 @@ int main()
             }
         }
 
-        window.clear(sf::Color(155,186,90,255));
+        if (game_state == eRunning) {
+            snake.move();
+            has_collided = snake.check_for_collision(walls);
+            if(has_collided)
+            {
+                game_state = ePaused;
+            }
+            snake.check_for_food(food, grid);
 
-        snake.move();
-        snake.check_for_food(food, grid);
-
-        if (snake.is_digesting())
-        {
-            snake.digest(food);
+            if (snake.is_digesting())
+            {
+                snake.digest();
+            }
         }
+
+        window.clear(sf::Color(155,186,90,255));
 
         snake.draw(window, grid);
         food.draw(window, grid);

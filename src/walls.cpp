@@ -41,3 +41,15 @@ void Walls::draw(sf::RenderWindow &window, Grid &grid)
         window.draw(wall_element_);
     }
 }
+
+std::array<std::vector<uint8_t>, 2> Walls::get_coordinates() const
+{
+    return coordinates_;
+}
+
+uint8_t Walls::length() const
+{
+    return x_coordinates_->size();
+}
+
+

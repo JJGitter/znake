@@ -34,7 +34,31 @@ eDirection Snake::direction() const
     return direction_;
 }
 
-void Snake::check_for_food(Food food, Grid grid)
+bool Snake::check_for_collision(Walls &walls)
+{
+    bool has_collided = false;
+    std::array<uint8_t, 2> head_position = this->get_head_position();
+    std::array<std::vector<uint8_t>, 2> walls_coordinates = walls.get_coordinates();
+    std::array<uint8_t, 2> walls_element;
+
+    for (uint8_t i = 0; i < walls.length(); i++)
+    {
+        walls_element = {walls_coordinates[0][i], walls_coordinates[1][i]};
+        if (head_position == walls_element)
+        {
+            has_collided = true;
+            std::cout << "YOU DIED!" << std::endl;
+            uint8_t snake_length = this->length();
+            std::cout << "Snake length: " << static_cast<int>(snake_length) << std::endl;
+            break;
+        }
+    }
+
+    return has_collided;
+}
+
+
+void Snake::check_for_food(Food &food, Grid &grid)
 {
     std::array<uint8_t, 2> head_position = this->get_head_position();
 
@@ -43,11 +67,10 @@ void Snake::check_for_food(Food food, Grid grid)
         is_digesting_ = true;
         position_of_food_being_digested_ = head_position;
         food.spawn(grid.get_max_element_index());
-        std::cout << "I ATE FOOD!!!" << std::endl;
     }
 }
 
-void Snake::digest(Food food)
+void Snake::digest()
 {
     std::array<uint8_t, 2> tail_position = this->get_tail_position();
     if (tail_position == position_of_food_being_digested_)
