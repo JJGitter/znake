@@ -8,18 +8,19 @@
 #include "main.h"
 #include "walls.h"
 
-const uint16_t window_pixel_width = 640; //needs to be evenly divisible by grid_element_width_
+const uint16_t WINDOW_PIXEL_WIDTH = 640; //needs to be evenly divisible by grid_element_width_
+const uint8_t FRAME_RATE_LIMIT = 14;
 
 int main()
 {
     GameState game_state = ePaused;
     sf::RenderWindow window(
-        sf::VideoMode(window_pixel_width, window_pixel_width),
-        "Pro elite programmer, Marcus 'Elden Lord' Gladh");
+        sf::VideoMode(WINDOW_PIXEL_WIDTH, WINDOW_PIXEL_WIDTH),
+        "ZNAKE TIME");
 
-    window.setFramerateLimit(14);
+    window.setFramerateLimit(FRAME_RATE_LIMIT);
 
-    Grid grid(window_pixel_width);
+    Grid grid(WINDOW_PIXEL_WIDTH);
     Snake snake(grid);
     Food food;
     Walls walls(grid);
@@ -43,7 +44,7 @@ int main()
             }else if (space_bar_pressed)
             {
                 toggle_pause(game_state);
-            }else if (any_key_pressed && !snake_already_turned)
+            }else if (any_key_pressed && game_state == eRunning && !snake_already_turned)
             {
                 process_turn_event(event, snake);
                 snake_already_turned = true;

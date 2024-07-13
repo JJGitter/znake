@@ -63,8 +63,7 @@ bool Snake::check_for_collision(Walls &walls)
         if (head_position == snake_element)
         {
             has_collided = true;
-            std::cout << "YOU DIED!" << std::endl;
-            std::cout << "Don't eat yourself next time." << std::endl;
+            std::cout << "YOU DIED! Don't eat yourself next time." << std::endl;
             std::cout << "Snake length: " << static_cast<int>(snake_length) << std::endl;
             break;
         }

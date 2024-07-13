@@ -4,7 +4,7 @@
 /// @return Width of a single grid element in pixels.
 uint8_t Grid::get_pixel_width_of_single_element() const
 {
-    return grid_element_width_;
+    return GRID_ELEMENT_WIDTH_;
 }
 
 /// @brief
