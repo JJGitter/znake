@@ -3,7 +3,9 @@
 enum GameState
 {
     eRunning,
-    ePaused
+    ePaused,
+    eGameOver = -1
 };
 
-void process_turn_event(sf::Event &event, Snake &snake, bool &is_key_already_pressed);
+void toggle_pause(GameState &game_state);
+void process_turn_event(sf::Event &event, Snake &snake);

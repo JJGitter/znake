@@ -12,7 +12,7 @@ const uint16_t window_pixel_width = 640; //needs to be evenly divisible by grid_
 
 int main()
 {
-    GameState game_state = eRunning;
+    GameState game_state = ePaused;
     sf::RenderWindow window(
         sf::VideoMode(window_pixel_width, window_pixel_width),
         "Pro elite programmer, Marcus 'Elden Lord' Gladh");
@@ -30,16 +30,23 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-        bool is_key_already_pressed = false;
+        bool snake_already_turned = false;
 
         while (window.pollEvent(event))
         {
+            bool space_bar_pressed = event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space;
+            bool any_key_pressed = event.type == sf::Event::KeyPressed;
+
             if (event.type == sf::Event::Closed)
             {
                 window.close();
-            }else if ((event.type == sf::Event::KeyPressed) && !is_key_already_pressed)
+            }else if (space_bar_pressed)
             {
-                process_turn_event(event, snake, is_key_already_pressed);
+                toggle_pause(game_state);
+            }else if (any_key_pressed && !snake_already_turned)
+            {
+                process_turn_event(event, snake);
+                snake_already_turned = true;
             }
         }
 
@@ -48,7 +55,7 @@ int main()
             has_collided = snake.check_for_collision(walls);
             if(has_collided)
             {
-                game_state = ePaused;
+                game_state = eGameOver;
             }
             snake.check_for_food(food, grid);
 
@@ -70,11 +77,21 @@ int main()
     return 0;
 }
 
-void process_turn_event(sf::Event &event, Snake &snake, bool &is_key_already_pressed)
+void toggle_pause(GameState &game_state)
+{
+    if (game_state == ePaused)
+    {
+        game_state = eRunning;
+    }else if (game_state == eRunning)
+    {
+        game_state = ePaused;
+    }
+}
+
+void process_turn_event(sf::Event &event, Snake &snake)
 {
     uint8_t button_pressed = event.key.code;
     uint8_t current_direction = snake.direction();
-    is_key_already_pressed = true;
 
     switch (button_pressed)
     {

@@ -40,6 +40,7 @@ bool Snake::check_for_collision(Walls &walls)
     std::array<uint8_t, 2> head_position = this->get_head_position();
     std::array<std::vector<uint8_t>, 2> walls_coordinates = walls.get_coordinates();
     std::array<uint8_t, 2> walls_element;
+    uint8_t snake_length = this->length();
 
     for (uint8_t i = 0; i < walls.length(); i++)
     {
@@ -48,7 +49,6 @@ bool Snake::check_for_collision(Walls &walls)
         {
             has_collided = true;
             std::cout << "YOU DIED!" << std::endl;
-            uint8_t snake_length = this->length();
             std::cout << "Snake length: " << static_cast<int>(snake_length) << std::endl;
             break;
         }
