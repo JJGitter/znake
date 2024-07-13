@@ -9,7 +9,7 @@
 #include "walls.h"
 
 const uint16_t WINDOW_PIXEL_WIDTH = 640; //needs to be evenly divisible by grid_element_width_
-const uint8_t FRAME_RATE_LIMIT = 14;
+const uint8_t FRAME_RATE_LIMIT = 6;
 
 int main()
 {
@@ -25,17 +25,26 @@ int main()
     Food food;
     Walls walls(grid);
     bool has_collided = false;
+    sf::Keyboard::Key queued_turn_event = sf::Keyboard::Unknown;
 
     food.spawn(grid.get_max_element_index());
 
     while (window.isOpen())
     {
+        bool turn_event_is_queued = queued_turn_event != sf::Keyboard::Unknown;
+        if (turn_event_is_queued)
+        {
+            process_turn_event(queued_turn_event, snake);
+        }
+
         sf::Event event;
-        bool snake_already_turned = false;
+        bool already_turned_once = false;
+        queued_turn_event = sf::Keyboard::Unknown;
 
         while (window.pollEvent(event))
         {
-            bool space_bar_pressed = event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space;
+            sf::Keyboard::Key button_pressed = event.key.code;
+            bool space_bar_pressed = event.type == sf::Event::KeyPressed && button_pressed == sf::Keyboard::Space;
             bool any_key_pressed = event.type == sf::Event::KeyPressed;
 
             if (event.type == sf::Event::Closed)
@@ -44,10 +53,17 @@ int main()
             }else if (space_bar_pressed)
             {
                 toggle_pause(game_state);
-            }else if (any_key_pressed && game_state == eRunning && !snake_already_turned)
+            }else if (any_key_pressed && game_state == eRunning)
             {
-                process_turn_event(event, snake);
-                snake_already_turned = true;
+                if (!already_turned_once)
+                {
+                    process_turn_event(button_pressed, snake);
+                    already_turned_once = true;
+                }else
+                {
+                    //TODO: MAKE SURE THAT THE QUEUED TURN EVENT CANNOT BE OVERWRITTEN. (WHICH WOULD HAPPEN IF I WERE SPAMMING BUTTONS)
+                    queued_turn_event = button_pressed;
+                }
             }
         }
 
@@ -89,9 +105,8 @@ void toggle_pause(GameState &game_state)
     }
 }
 
-void process_turn_event(sf::Event &event, Snake &snake)
+void process_turn_event(sf::Keyboard::Key button_pressed, Snake &snake)
 {
-    uint8_t button_pressed = event.key.code;
     uint8_t current_direction = snake.direction();
 
     switch (button_pressed)
