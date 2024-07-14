@@ -8,6 +8,7 @@ std::array<uint8_t, 2> Food::get_coordinates() const
 
 std::array<uint8_t, 2> Food::spawn(uint8_t max_x)
 {
+    //TODO: MAKE SURE THAT FOOD CANNOT SPAWN WITHIN THE SNAKE BODY
     srand(time(NULL));
     uint8_t random_x = rand() % (max_x - 1) + 1; //ranges from 1 -> 'max_x - 1'
     uint8_t random_y = rand() % (max_x - 1) + 1;
