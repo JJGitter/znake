@@ -42,16 +42,16 @@ int main()
     while (window.isOpen())
     {
         bool turn_event_is_queued = queued_turn_event != sf::Keyboard::Unknown;
-        bool block_turn_input = false;
+        bool has_turned_once = false;
+        bool is_queueing_allowed = false;
+        bool has_made_queued_turn = false;
         if (turn_event_is_queued)
         {
             process_turn_event(queued_turn_event, snake);
-            block_turn_input = true;
+            has_made_queued_turn = true;
         }
 
         sf::Event event;
-        bool already_turned_once = false;
-        bool has_turned_once_only = false;
         queued_turn_event = sf::Keyboard::Unknown;
 
         while (window.pollEvent(event))
@@ -68,15 +68,15 @@ int main()
                 toggle_pause(game_state);
             }else if (any_key_pressed && game_state == eRunning)
             {
-                if (!already_turned_once && !block_turn_input)
+                if (!has_turned_once && !has_made_queued_turn)
                 {
                     process_turn_event(button_pressed, snake);
-                    already_turned_once = true;
-                    has_turned_once_only = true;
-                }else if (has_turned_once_only)
+                    has_turned_once = true;
+                    is_queueing_allowed = true;
+                }else if (is_queueing_allowed)
                 {
                     queued_turn_event = button_pressed;
-                    has_turned_once_only = false;
+                    is_queueing_allowed = false;
                 }
             }
         }
