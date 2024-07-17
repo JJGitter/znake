@@ -5,11 +5,21 @@
 #include "grid.h"
 #include "snake.h"
 #include "food.h"
-#include "main.h"
 #include "walls.h"
 
 const uint16_t WINDOW_PIXEL_WIDTH = 640; //needs to be evenly divisible by grid_element_width_
-const uint8_t FRAME_RATE_LIMIT = 6;
+const uint8_t FRAME_RATE_LIMIT = 14;
+
+enum GameState
+{
+    eRunning,
+    ePaused,
+    eGameOver = -1
+};
+
+void toggle_pause(GameState &game_state);
+void process_turn_event(sf::Keyboard::Key button_pressed, Snake &snake);
+bool check_if_key_is_turn_key(sf::Keyboard::Key pressed_key);
 
 int main()
 {
@@ -32,13 +42,16 @@ int main()
     while (window.isOpen())
     {
         bool turn_event_is_queued = queued_turn_event != sf::Keyboard::Unknown;
+        bool block_turn_input = false;
         if (turn_event_is_queued)
         {
             process_turn_event(queued_turn_event, snake);
+            block_turn_input = true;
         }
 
         sf::Event event;
         bool already_turned_once = false;
+        bool has_turned_once_only = false;
         queued_turn_event = sf::Keyboard::Unknown;
 
         while (window.pollEvent(event))
@@ -55,14 +68,15 @@ int main()
                 toggle_pause(game_state);
             }else if (any_key_pressed && game_state == eRunning)
             {
-                if (!already_turned_once)
+                if (!already_turned_once && !block_turn_input)
                 {
                     process_turn_event(button_pressed, snake);
                     already_turned_once = true;
-                }else
+                    has_turned_once_only = true;
+                }else if (has_turned_once_only)
                 {
-                    //TODO: MAKE SURE THAT THE QUEUED TURN EVENT CANNOT BE OVERWRITTEN. (WHICH WOULD HAPPEN IF I WERE SPAMMING BUTTONS)
                     queued_turn_event = button_pressed;
+                    has_turned_once_only = false;
                 }
             }
         }
